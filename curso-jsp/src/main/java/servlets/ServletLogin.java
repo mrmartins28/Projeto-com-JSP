@@ -25,7 +25,7 @@ public class ServletLogin extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+// realiza o logout do usuário no sistema
 		String acao = request.getParameter("acao");
 
 		if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("logout")) {
