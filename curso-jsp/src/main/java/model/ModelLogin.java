@@ -7,10 +7,18 @@ public class ModelLogin implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	private long id;
 	private String login;
 	private String senha;
 	private String email;
 	private String nome;
+	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 	public String getEmail() {
 		return email;
@@ -39,7 +47,8 @@ public class ModelLogin implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "ModelLogin [login=" + login + ", senha=" + senha + ", email=" + email + ", nome=" + nome + "]";
+		return "ModelLogin [id=" + id + ", login=" + login + ", senha=" + senha + ", email=" + email + ", nome=" + nome
+				+ "]";
 	}
 	
 	
