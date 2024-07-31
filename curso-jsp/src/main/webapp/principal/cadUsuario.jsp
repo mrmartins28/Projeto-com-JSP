@@ -36,7 +36,7 @@
                                     <div class="page-body">
                                         <div class="row">
                                         
-									<h1>Pagina principal do site</h1>
+									<h1>Pagina de cadastro de usuario</h1>
                                             
                                         </div>
                                     </div>
