@@ -7,16 +7,16 @@ public class ModelLogin implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private long id;
+	private Long id;
 	private String login;
 	private String senha;
 	private String email;
 	private String nome;
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
