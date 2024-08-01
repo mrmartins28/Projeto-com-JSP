@@ -66,19 +66,19 @@ public class DAOUsuarioRepository {
 	}
 	
 	public boolean validaLogin(String login) throws Exception {
+	
+		String sql = "select count(1) > 0 as exist from model_login where upper(login) = upper(?); ";
 		
-		ModelLogin modelLogin = buscarUsuario(login);
-		if(modelLogin.equals(null)) {
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, login);
+		
+		ResultSet resultSet = statement.executeQuery();
+		
+		if(resultSet.next()) {
 			
-			if(modelLogin.getLogin().equals(login)) {
-				
-				return true;
-			} 
-			
-			
+			return resultSet.getBoolean("exist");
 		}
+		
 		return false;
-		
-		
 	}
 }
