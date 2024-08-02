@@ -81,4 +81,21 @@ public class DAOUsuarioRepository {
 		
 		return false;
 	}
+	
+	public ModelLogin atualizarCadastro(ModelLogin modelLogin) throws Exception{
+		
+		String sql = "update model_login set senha = ?, nome = ?, email= ? where upper(login) = upper(?)";
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, modelLogin.getSenha());
+		statement.setString(2, modelLogin.getNome());
+		statement.setString(3, modelLogin.getEmail());
+		statement.setString(4, modelLogin.getLogin());
+		
+		statement.execute();
+		
+		connection.commit();
+		
+		return this.buscarUsuario(modelLogin.getLogin());
+	}
 }
