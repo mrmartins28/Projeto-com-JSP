@@ -24,7 +24,34 @@ public class servletUsuarioController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+		String acao = request.getParameter("acao");
+		String msg = "";
+		
+		if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
+		
+		String id = request.getParameter("id");
+		
+		if(id != null && !id.isEmpty()) {
+		
+		
+			try {
+				daoUsuarioRepository.deletarUsuario(id);
+			} catch (Exception e) {
+				e.printStackTrace();
+				RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
+				request.setAttribute("msg", e.getMessage());
+				redirecionar.forward(request, response);
+			}
+			msg = "Usuário deletado com sucesso!";
+		
+		} else {
+			msg = "Campo Id inválido!";
+		}
+		
+		}
+		request.setAttribute("msg", msg);
+		request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
