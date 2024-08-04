@@ -44,14 +44,30 @@ public class servletUsuarioController extends HttpServlet {
 				redirecionar.forward(request, response);
 			}
 			msg = "Usuário deletado com sucesso!";
+			request.setAttribute("msg", msg);
+			request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
 		
 		} else {
 			msg = "Campo Id inválido!";
 		}
 		
+		} else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarAjax")) {
+			 String id = request.getParameter("id");
+			 
+			if(id != null && !id.isEmpty()) {
+				
+				try {
+					daoUsuarioRepository.deletarUsuario(id);
+					response.getWriter().write("Usuario deletado com sucesso!");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
 		}
-		request.setAttribute("msg", msg);
-		request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
+		
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -46,9 +46,9 @@
 														<form class="form-material"
 															action="<%=request.getContextPath()%>/servletUsuarioController"
 															method="post" id="formUser">
-															
+
 															<input type="hidden" name="acao" id="acao">
-															
+
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="id" id="id"
 																	value="${modelLogin.id }" class="form-control"
@@ -79,10 +79,16 @@
 																	required="required" autocomplete="off"> <span
 																	class="form-bar"></span> <label class="float-label">Senha:</label>
 															</div>
-															<button type="button" class="btn btn-primary waves-effect waves-light" onclick="limparForm()">Novo</button>
-															<button type="submit" class="btn btn-success waves-effect waves-light" >Salvar </button>
-															<button type="button" class="btn btn-info waves-effect waves-light" onclick="criarDelete()">Excluir</button>
-															
+															<button type="button"
+																class="btn btn-primary waves-effect waves-light"
+																onclick="limparForm()">Novo</button>
+															<button type="submit"
+																class="btn btn-success waves-effect waves-light">Salvar
+															</button>
+															<button type="button"
+																class="btn btn-info waves-effect waves-light"
+																onclick="criarDeleteComAjax()">Excluir</button>
+
 
 														</form>
 													</div>
@@ -90,7 +96,7 @@
 											</div>
 										</div>
 
-										<span>${msg}</span>
+										<span id='msg'>${msg}</span>
 
 									</div>
 									<!-- Page-body end -->
@@ -107,24 +113,55 @@
 
 	<jsp:include page="javascriptFile.jsp"></jsp:include>
 	<script type="text/javascript">
-	
-	function criarDelete() {
-		document.getElementById("formUser").method = 'get';
-		document.getElementById("acao").value = 'deletar';
-		document.getElementById("formUser").submit();
-		
-	}
-	
-	function limparForm() {
-		
-		var elementos = document.getElementById("formUser").elements;
-		
-		for(i = 0; i < elementos.length ; i++ ){
+		function criarDeleteComAjax() {
 
-		elementos[i].value = '';
+			if (confirm('Deseja excluir esse usuário?')) {
+
+				var urlAction = document.getElementById('formUser').action;
+				var idUser = document.getElementById('id').value;
+
+				$.ajax({
+
+					method : "get",
+					url : urlAction,
+					data : "id=" + idUser + '&acao=deletarAjax',
+					success : function(response) {
+
+						limparForm();
+						document.getElementById('msg').textContent = response;
+
+					}
+
+				})
+				fail(function(xhr, status, erroThrown) {
+					alert('Erro ao deletar usuário por Id: ' + xhr.responseText);
+				});
+
+			}
+
 		}
-		
-	}
+
+		function criarDelete() {
+
+			if (confirm("Deseja excluir esse usuário?")) {
+
+				document.getElementById("formUser").method = 'get';
+				document.getElementById("acao").value = 'deletar';
+				document.getElementById("formUser").submit();
+
+			}
+		}
+
+		function limparForm() {
+
+			var elementos = document.getElementById("formUser").elements;
+
+			for (i = 0; i < elementos.length; i++) {
+
+				elementos[i].value = '';
+			}
+
+		}
 	</script>
 
 </body>
