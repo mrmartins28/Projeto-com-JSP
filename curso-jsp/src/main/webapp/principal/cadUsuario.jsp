@@ -88,6 +88,9 @@
 															<button type="button"
 																class="btn btn-info waves-effect waves-light"
 																onclick="criarDeleteComAjax()">Excluir</button>
+															<button type="button" class="btn btn-primary"
+																data-toggle="modal" data-target="#modalUsuario">
+																Pesquisa de usuário</button>
 
 
 														</form>
@@ -110,15 +113,95 @@
 		</div>
 	</div>
 
+	<!-- Modal -->
+	<div class="modal fade" id="modalUsuario" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Pesquisa de
+						usuário</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" placeholder="Nome" id= "nomeBusca">
+						<div class="input-group-append">
+							<button class="btn btn-success" type="submit" onclick="buscarUsuario()">Buscar</button>
+						</div>
+					</div>
+
+				</div>
+				
+				<div class="container">
+  <h2>Usuários</h2>
+  <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>            
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>NOME</th>
+        <th>VER</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+    
+    </tbody>
+  </table>
+</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Fechar</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<jsp:include page="javascriptFile.jsp"></jsp:include>
 	<script type="text/javascript">
+		function buscarUsuario() {
+
+			var nomeBusca = document.getElementById('nomeBusca').value;
+			var urlAction = document.getElementById('formUser').action;
+			
+			if(nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != ''){ /* Validando que quem ue ter algum valor para buscar*/
+
+			
+				$.ajax({
+
+					method : "get",
+					url : urlAction,
+					data : "nomeBusca=" + nomeBusca + '&acao=buscarUserAjax',
+					success : function(response) {
+
+
+					}
+
+				})
+				fail(function(xhr, status, erroThrown) {
+					alert('Erro ao buscar usuario por nome: ' + xhr.responseText);
+				});
+				
+
+			}
+			
+		}
+	
 		function criarDeleteComAjax() {
 
-			if (confirm('Deseja excluir esse usuário?')) {
 
-				var urlAction = document.getElementById('formUser').action;
-				var idUser = document.getElementById('id').value;
+			var urlAction = document.getElementById('formUser').action;
+			var idUser = document.getElementById('id').value;
+
+
+			if(idUser != null && idUser != '' && idUser.trim() != ''){
+			if (confirm('Deseja excluir esse usuário?')) {
 
 				$.ajax({
 
@@ -138,7 +221,7 @@
 				});
 
 			}
-
+			}
 		}
 
 		function criarDelete() {

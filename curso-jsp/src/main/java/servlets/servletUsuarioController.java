@@ -32,9 +32,7 @@ public class servletUsuarioController extends HttpServlet {
 		
 		String id = request.getParameter("id");
 		
-		if(id != null && !id.isEmpty()) {
-		
-		
+				
 			try {
 				daoUsuarioRepository.deletarUsuario(id);
 			} catch (Exception e) {
@@ -43,13 +41,11 @@ public class servletUsuarioController extends HttpServlet {
 				request.setAttribute("msg", e.getMessage());
 				redirecionar.forward(request, response);
 			}
+			
 			msg = "Usuário deletado com sucesso!";
 			request.setAttribute("msg", msg);
 			request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
 		
-		} else {
-			msg = "Campo Id inválido!";
-		}
 		
 		} else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarAjax")) {
 			 String id = request.getParameter("id");
@@ -65,7 +61,25 @@ public class servletUsuarioController extends HttpServlet {
 				
 			}
 			
+		} else if(acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUserAjax")) {
+			
+			 String nomeBusca = request.getParameter("nomeBusca");
+			 System.out.println(nomeBusca);
+			 
+			
+				
+				
+				//	daoUsuarioRepository.deletarUsuario(id);
+					
+				//	response.getWriter().write("Usuario deletado com sucesso!");
+				
+			
+			
+		} else {
+			
+			request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
 		}
+		
 		
 		
 	}
