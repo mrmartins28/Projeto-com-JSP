@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.DAOUsuarioRepository;
 import model.ModelLogin;
 
-@WebServlet("/servletUsuarioController")
+@WebServlet(urlPatterns = { "/servletUsuarioController", "/principal/cadUsuario.jsp"})
 public class servletUsuarioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
@@ -73,7 +73,19 @@ public class servletUsuarioController extends HttpServlet {
 				request.setAttribute("modelLogin", modelLogin);
 
 				request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
+				
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("listarUsers")) {
+				
+				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuariolist();
+				
+				
+				request.setAttribute("msg", "usuários carregados.");
+				request.setAttribute("modelLogins", modelLogins);
+
+				request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
+				
 			}
+			
 
 			else {
 
