@@ -54,18 +54,28 @@ public class servletUsuarioController extends HttpServlet {
 			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUserAjax")) {
 
 				String nomeBusca = request.getParameter("nomeBusca");
-				System.out.println(nomeBusca);
 
 				List<ModelLogin> dadosUserJason = daoUsuarioRepository.consultaUsuariolist(nomeBusca);
-				
+
 				ObjectMapper mapper = new ObjectMapper();
-				
+
 				String json = mapper.writeValueAsString(dadosUserJason);
 				System.out.println(json);
 				response.getWriter().write(json);
-				
 
-			} else {
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarEditar")) {
+
+				String id = request.getParameter("id");
+
+				ModelLogin modelLogin = daoUsuarioRepository.buscarUsuarioId(id);
+
+				request.setAttribute("msg", "usuário em edição.");
+				request.setAttribute("modelLogin", modelLogin);
+
+				request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
+			}
+
+			else {
 
 				request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
 			}

@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	 
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	
 <!DOCTYPE html>
 <html lang="en">
 
 <jsp:include page="head.jsp"></jsp:include>
+
+
 
 <body>
 
@@ -140,7 +145,8 @@
 				<div class="container">
   <h2>Usuários</h2>
   <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>            
-  <table class="table">
+ <div style="height: 300px; overflow: scroll;">
+  <table class="table" id="tabelaResultados">
     <thead>
       <tr>
         <th>ID</th>
@@ -153,6 +159,9 @@
     
     </tbody>
   </table>
+ 
+  </div>
+   <span id= "totalResultado"></span>
 </div>
 				
 				<div class="modal-footer">
@@ -180,7 +189,21 @@
 					data : "nomeBusca=" + nomeBusca + '&acao=buscarUserAjax',
 					success : function(response) {
 
-					alert(response);
+					var json = JSON.parse(response);
+					
+					$('#tabelaResultados > tbody > tr').remove(); //Jquery para remover as linhas
+					
+					
+					for(var p = 0; p < json.length; p++){
+
+						$('#tabelaResultados > tbody').append('<tr> <td>' + json[p].id + '</td> <td>'+ json[p].nome +
+								'</td> <td>'+ '<button class="btn waves-effect waves-light btn-info" onclick="verUsuario('+ json[p].id +')"><i "icofont icofont-eye-alt"></i> Ver </button> </td> </tr>');
+
+					
+					}
+					
+					document.getElementById('totalResultado').textContent = 'resultados= ' + json.length;
+						
 					}
 
 				})
@@ -191,6 +214,17 @@
 
 			}
 			
+		}
+		
+		function verUsuario(id) {
+				
+			var urlAction = document.getElementById('formUser').action;
+			var idUser = document.getElementById('id').value;
+			
+				
+			window.location.href = urlAction + '?acao=buscarEditar&id='+id;
+
+				
 		}
 	
 		function criarDeleteComAjax() {
