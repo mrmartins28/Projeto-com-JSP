@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.DAOUsuarioRepository;
 import model.ModelLogin;
 
-@WebServlet("/servletUsuarioController")
+@WebServlet(urlPatterns = { "/servletUsuarioController"}) 
 public class servletUsuarioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
@@ -36,6 +36,10 @@ public class servletUsuarioController extends HttpServlet {
 				String id = request.getParameter("id");
 
 				daoUsuarioRepository.deletarUsuario(id);
+				
+				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuariolist();
+				request.setAttribute("modelLogins", modelLogins);
+
 
 				msg = "Usuário deletado com sucesso!";
 				request.setAttribute("msg", msg);
@@ -68,6 +72,9 @@ public class servletUsuarioController extends HttpServlet {
 				String id = request.getParameter("id");
 
 				ModelLogin modelLogin = daoUsuarioRepository.buscarUsuarioId(id);
+				
+				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuariolist();
+				request.setAttribute("modelLogins", modelLogins);
 
 				request.setAttribute("msg", "usuário em edição.");
 				request.setAttribute("modelLogin", modelLogin);
@@ -88,6 +95,10 @@ public class servletUsuarioController extends HttpServlet {
 			
 
 			else {
+				
+				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuariolist();
+				request.setAttribute("modelLogins", modelLogins);
+
 
 				request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
 			}
@@ -124,11 +135,16 @@ public class servletUsuarioController extends HttpServlet {
 				if (modelLogin.isNovo()) {
 					modelLogin = daoUsuarioRepository.atualizarCadastro(modelLogin);
 					msg = "Esse Login já existe, Usuario atualizado";
+					
 				}
 			} else if (modelLogin.getId() == null) {
 
 				modelLogin = daoUsuarioRepository.salvarUsuario(modelLogin);
 			}
+			
+			List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuariolist();
+			request.setAttribute("modelLogins", modelLogins);
+
 
 			request.setAttribute("msg", msg);
 			request.setAttribute("modelLogin", modelLogin);
