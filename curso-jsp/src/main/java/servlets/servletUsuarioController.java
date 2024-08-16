@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.DAOUsuarioRepository;
 import model.ModelLogin;
 
-@WebServlet(urlPatterns = { "/servletUsuarioController", "/principal/cadUsuario.jsp"})
+@WebServlet("/servletUsuarioController")
 public class servletUsuarioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();

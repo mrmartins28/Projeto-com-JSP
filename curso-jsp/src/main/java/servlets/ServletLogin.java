@@ -50,6 +50,8 @@ public class ServletLogin extends HttpServlet {
 		String login = request.getParameter("login");
 		String senha = request.getParameter("senha");
 		String url = request.getParameter("url");
+		String teste = request.getContextPath();
+		System.out.println(teste);
 
 		try {
 

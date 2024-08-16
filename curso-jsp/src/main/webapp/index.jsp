@@ -60,7 +60,8 @@ h5 {
 			<div class="valid-feedback">Ok!</div>
 
 		</div>
-		<input type="submit" value="Enviar" class="btn btn-primary">
+		
+		<input type="submit" value="Enviar" onclick="teste()" class="btn btn-primary">
 
 
 
@@ -69,6 +70,7 @@ h5 {
 
 
 	</form>
+	<% out.print(request.getContextPath()); %>
 	<h4 class="msg">${msg}</h4>
 	<!-- Bootstrap CSS -->
 	<link
@@ -97,6 +99,13 @@ h5 {
 				}, false)
 			})
 		})()
+	</script>
+	<script type="text/javascript">
+	function teste() {
+		alert(request.getContextPath());
+		
+	}
+	
 	</script>
 </body>
 </html>
