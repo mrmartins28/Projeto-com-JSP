@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.DAOLoginRepository;
+import dao.DAOUsuarioRepository;
 import model.ModelLogin;
 
 @WebServlet(urlPatterns = { "/ServletLogin", "/principal/ServletLogin" })
@@ -46,12 +47,12 @@ public class ServletLogin extends HttpServlet {
 			throws ServletException, IOException {
 
 		DAOLoginRepository daoLoginRepository = new DAOLoginRepository();
+		DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
 
 		String login = request.getParameter("login");
 		String senha = request.getParameter("senha");
 		String url = request.getParameter("url");
-		String teste = request.getContextPath();
-		System.out.println(teste);
+		
 
 		try {
 
@@ -62,9 +63,13 @@ public class ServletLogin extends HttpServlet {
 				modelLogin.setSenha(senha);
 
 				if (daoLoginRepository.validaAutenticacao(modelLogin)) {
+					
+					
+
 
 					request.getSession().setAttribute("usuario", modelLogin.getLogin());
-
+					request.getSession().setAttribute("isAdmin", daoUsuarioRepository.isAdmin(login));
+					
 					if (url == null || url.equals("null")) {
 						url = "/principal/principal.jsp";
 

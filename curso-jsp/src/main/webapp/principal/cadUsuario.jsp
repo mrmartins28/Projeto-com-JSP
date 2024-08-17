@@ -184,8 +184,7 @@
 
 				<div class="container">
 					<h2>Usuários</h2>
-					<p>The .table class adds basic styling (light padding and
-						horizontal dividers) to a table:</p>
+					<p>Lista de Usuários, clique em 'ver' para mais detalhes.</p>
 					<div style="height: 300px; overflow: scroll;">
 						<table class="table" id="tabelaResultados">
 							<thead>

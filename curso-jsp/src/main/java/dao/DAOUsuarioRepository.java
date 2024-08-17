@@ -42,7 +42,7 @@ public class DAOUsuarioRepository {
 
 		
 
-		String sql = "select * from model_login" ;
+		String sql = "select * from model_login where useradmin is false" ;
 		PreparedStatement statement = connection.prepareStatement(sql);
 
 		ResultSet resultSet = statement.executeQuery();
@@ -70,7 +70,7 @@ public class DAOUsuarioRepository {
 
 		
 
-		String sql = "select * from model_login where upper(nome) like upper(?)";
+		String sql = "select * from model_login where upper(nome) like upper(?) and useradmin is false";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, "%" + nome + "%");
 
@@ -99,7 +99,7 @@ public class DAOUsuarioRepository {
 
 		ModelLogin modelLogin = new ModelLogin();
 
-		String sql = "select * from model_login where id = ?";
+		String sql = "select * from model_login where id = ? and useradmin is false";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setLong(1, Long.parseLong(id));
 
@@ -111,6 +111,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setLogin(resultSet.getString("login"));
 			modelLogin.setNome(resultSet.getString("nome"));
 			modelLogin.setSenha(resultSet.getString("senha"));
+			modelLogin.setUserAdmin(resultSet.getBoolean("useradmin"));
 
 		}
 
@@ -122,7 +123,7 @@ public class DAOUsuarioRepository {
 
 		ModelLogin modelLogin = new ModelLogin();
 
-		String sql = "select * from model_login where upper(login) = upper(?)";
+		String sql = "select * from model_login where upper(login) = upper(?) and useradmin is false";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, login);
 
@@ -138,6 +139,20 @@ public class DAOUsuarioRepository {
 		}
 
 		return modelLogin;
+	}
+	
+	public boolean isAdmin(String login) throws Exception {
+
+
+		String sql = "select * from model_login where upper(login) = upper(?) and useradmin is true";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, login);
+
+		ResultSet resultSet = statement.executeQuery();
+
+	
+
+		return resultSet.next();
 	}
 
 	public boolean validaLogin(String login) throws Exception {
@@ -176,7 +191,7 @@ public class DAOUsuarioRepository {
 
 	public void deletarUsuario(String id) throws Exception {
 
-		String sql = "delete from model_login where id =" + id;
+		String sql = "delete from model_login where id =" + id + " and useradmin is false";
 		PreparedStatement statement = connection.prepareStatement(sql);
 
 		statement.execute();

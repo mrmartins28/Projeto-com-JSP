@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <!-- Menu principal da lateral do site -->
     
      <nav class="pcoded-navbar">
@@ -48,6 +49,7 @@
                                       <span class="pcoded-mcaret"></span>
                                   </a>
                                   <ul class="pcoded-submenu">
+                                  <c:if test="${isAdmin }">
                                       <li class=" ">
                                           <a href="<%= request.getContextPath() %>/servletUsuarioController?acao=listarUsers" class="waves-effect waves-dark">
                                               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -55,6 +57,7 @@
                                               <span class="pcoded-mcaret"></span>
                                           </a>
                                       </li>
+                                      </c:if>
                                       <li class=" ">
                                           <a href="breadcrumb.html" class="waves-effect waves-dark">
                                               <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
