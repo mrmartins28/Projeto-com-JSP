@@ -48,6 +48,7 @@ public class ServletLogin extends HttpServlet {
 
 		DAOLoginRepository daoLoginRepository = new DAOLoginRepository();
 		DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
+		ServletGenericUtil genericUtil = new ServletGenericUtil();
 
 		String login = request.getParameter("login");
 		String senha = request.getParameter("senha");
@@ -65,10 +66,13 @@ public class ServletLogin extends HttpServlet {
 				if (daoLoginRepository.validaAutenticacao(modelLogin)) {
 					
 					
-
+					
 
 					request.getSession().setAttribute("usuario", modelLogin.getLogin());
-					request.getSession().setAttribute("isAdmin", daoUsuarioRepository.isAdmin(login));
+					
+					modelLogin = daoUsuarioRepository.buscarGenerico(login);
+					//request.getSession().setAttribute("isAdmin", daoUsuarioRepository.isAdmin(login));
+					request.getSession().setAttribute("perfil", modelLogin.getPerfil());
 					
 					if (url == null || url.equals("null")) {
 						url = "/principal/principal.jsp";

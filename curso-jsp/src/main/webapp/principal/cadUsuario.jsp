@@ -78,9 +78,25 @@
 															<div class="form-group form-default form-static-label">
 																<select name="perfil" class="form-control" id="perfil" >
 																	<option  disabled="disabled" value=${modelLogin.perfil }>Selecione um perfil</option>
-																	<option value="ADMIN">Admin</option>
-																	<option value="SECRETARIA">Secretária</option>
-																	<option value="AUXILIAR">Auxiliar</option>
+																	<option value="ADMIN"  <% if(request.getSession().getAttribute("perfil")== "ADMIN"){
+																		out.print(" ");
+																		out.print("selected=\"selected\"");
+																		out.print(" ");
+																		
+																		}%>>Admin</option>
+																	
+																	<option value="SECRETARIA" <% if(request.getSession().getAttribute("perfil")== "SECRETARIA"){
+																		out.print(" ");
+																		out.print("selected=\"selected\"");
+																		out.print(" ");
+																		
+																		}%>>Secretária</option>
+																	<option value="AUXILIAR" <% if(request.getSession().getAttribute("perfil")== "AUXILIAR"){
+																		out.print(" ");
+																		out.print("selected=\"selected\"");
+																		out.print(" ");
+																		
+																		}%>>Auxiliar</option>
 
 																</select> <span class="form-bar"></span> <label
 																	class="float-label">Perfil do
