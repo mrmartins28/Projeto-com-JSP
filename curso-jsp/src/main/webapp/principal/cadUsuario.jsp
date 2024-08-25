@@ -73,6 +73,21 @@
 																	required="required" autocomplete="off"> <span
 																	class="form-bar"></span> <label class="float-label">Email:</label>
 															</div>
+
+
+															<div class="form-group form-default form-static-label">
+																<select name="perfil" class="form-control" id="perfil" >
+																	<option  disabled="disabled" value=${modelLogin.perfil }>Selecione um perfil</option>
+																	<option value="ADMIN">Admin</option>
+																	<option value="SECRETARIA">Secretária</option>
+																	<option value="AUXILIAR">Auxiliar</option>
+
+																</select> <span class="form-bar"></span> <label
+																	class="float-label">Perfil do
+																	usuário</label>
+															</div>
+
+
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="login" id="login"
 																	value="${modelLogin.login }" class="form-control"
@@ -100,8 +115,7 @@
 															<a
 																href="<%=request.getContextPath()%>/servletUsuarioController?acao=listarUsers"
 																class="btn btn-primary"
-																data-i18n="nav.basic-components.alert">Listar
-															</a>
+																data-i18n="nav.basic-components.alert">Listar </a>
 
 
 														</form>
