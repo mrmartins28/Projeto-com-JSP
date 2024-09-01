@@ -22,7 +22,7 @@ public class DAOUsuarioRepository {
 
 	public ModelLogin salvarUsuario(ModelLogin usuario, Long userLogado) throws Exception {
 
-		String sql = "INSERT INTO model_login(login, senha, nome, email, usuario_id, perfil) VALUES (?, ?, ?, ?, ?,?)";
+		String sql = "INSERT INTO model_login(login, senha, nome, email, usuario_id, perfil, sexo) VALUES (?, ?, ?, ?, ?,?,?)";
 
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, usuario.getLogin());
@@ -31,6 +31,7 @@ public class DAOUsuarioRepository {
 		statement.setString(4, usuario.getEmail());
 		statement.setLong(5, userLogado);
 		statement.setString(6, usuario.getPerfil());
+		statement.setString(7, usuario.getSexo());
 
 		statement.execute();
 
@@ -57,6 +58,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setNome(resultSet.getString("nome"));
 			// modelLogin.setSenha(resultSet.getString("senha"));
 			modelLogin.setPerfil(resultSet.getString("perfil"));
+			modelLogin.setSexo(resultSet.getString("sexo"));
 
 			listaUsuarios.add(modelLogin);
 
@@ -85,6 +87,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setNome(resultSet.getString("nome"));
 			// modelLogin.setSenha(resultSet.getString("senha"));
 			modelLogin.setPerfil(resultSet.getString("perfil"));
+			modelLogin.setSexo(resultSet.getString("sexo"));
 
 			listaUsuarios.add(modelLogin);
 
@@ -112,6 +115,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setSenha(resultSet.getString("senha"));
 			modelLogin.setUserAdmin(resultSet.getBoolean("useradmin"));
 			modelLogin.setPerfil(resultSet.getString("perfil"));
+			modelLogin.setSexo(resultSet.getString("sexo"));
 
 		}
 
@@ -122,10 +126,10 @@ public class DAOUsuarioRepository {
 
 		ModelLogin modelLogin = new ModelLogin();
 
-		String sql = "select * from model_login where upper(login) = upper(?) and useradmin is false and usuario_id=?";
+		String sql = "select * from model_login where upper(login) = upper(?) and useradmin is false and usuario_id=" + userLogado;
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, login);
-		statement.setLong(2, userLogado);
+		//statement.setLong(2, userLogado);
 
 		ResultSet resultSet = statement.executeQuery();
 
@@ -136,6 +140,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setNome(resultSet.getString("nome"));
 			modelLogin.setSenha(resultSet.getString("senha"));
 			modelLogin.setPerfil(resultSet.getString("perfil"));
+			modelLogin.setSexo(resultSet.getString("sexo"));
 
 		}
 
@@ -159,6 +164,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setNome(resultSet.getString("nome"));
 			modelLogin.setSenha(resultSet.getString("senha"));
 			modelLogin.setPerfil(resultSet.getString("perfil"));
+			modelLogin.setSexo(resultSet.getString("sexo"));
 
 		}
 
@@ -182,6 +188,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setNome(resultSet.getString("nome"));
 			modelLogin.setSenha(resultSet.getString("senha"));
 			modelLogin.setPerfil(resultSet.getString("perfil"));
+			modelLogin.setSexo(resultSet.getString("sexo"));
 
 		}
 
@@ -218,20 +225,25 @@ public class DAOUsuarioRepository {
 
 	public ModelLogin atualizarCadastro(ModelLogin modelLogin) throws Exception {
 
-		String sql = "update model_login set senha = ?, nome = ?, email= ?, perfil=?  where upper(login) = upper(?)";
+		String sql = "update model_login set senha = ?, nome = ?, email= ?, perfil=?, sexo=? where upper(login) = upper(?)";
 
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, modelLogin.getSenha());
 		statement.setString(2, modelLogin.getNome());
 		statement.setString(3, modelLogin.getEmail());
 		statement.setString(4, modelLogin.getPerfil());
-		statement.setString(5, modelLogin.getLogin());
+		statement.setString(5, modelLogin.getSexo());
+		statement.setString(6, modelLogin.getLogin());
+		
 
 		statement.execute();
 
 		connection.commit();
-
-		return this.buscarUsuario(modelLogin.getLogin(), modelLogin.getId());
+		
+		return this.buscarGenerico(modelLogin.getLogin());
+		
+		
+		
 	}
 
 	public void deletarUsuario(String id) throws Exception {
@@ -263,6 +275,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setSenha(resultSet.getString("senha"));
 			modelLogin.setUserAdmin(resultSet.getBoolean("useradmin"));
 			modelLogin.setPerfil(resultSet.getString("perfil"));
+			modelLogin.setSexo(resultSet.getString("sexo"));
 
 		}
 		
