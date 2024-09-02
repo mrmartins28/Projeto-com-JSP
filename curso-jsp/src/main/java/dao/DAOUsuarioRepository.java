@@ -113,7 +113,7 @@ public class DAOUsuarioRepository {
 
 	}
 
-	public ModelLogin buscarUsuarioId(String id) throws Exception {
+	public ModelLogin buscarUsuarioId(String id, Long userLogado) throws Exception {
 
 		ModelLogin modelLogin = new ModelLogin();
 
@@ -133,6 +133,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setPerfil(resultSet.getString("perfil"));
 			modelLogin.setSexo(resultSet.getString("sexo"));
 			modelLogin.setImagemUser(resultSet.getString("fotouser"));
+			modelLogin.setExtensaoImagemUser(resultSet.getString("extensaofotouser"));
 
 		}
 

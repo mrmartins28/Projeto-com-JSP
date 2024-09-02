@@ -66,9 +66,9 @@
 															<div class="form-group form-default input-group mb-4">
 																<div class="input-group-prepend">
 																<c:if test="${modelLogin.imagemUser !='' && modelLogin.imagemUser != null }">
-																
+																<a href="<%= request.getContextPath() %>/servletUsuarioController?acao=dowloadFoto&id=${modelLogin.id}">
 																<img alt="Imagem User" id="fotoembase64" src="${modelLogin.imagemUser }" width="70px">
-																
+																</a >
 																</c:if>
 																
 																<c:if test="${modelLogin.imagemUser == '' || modelLogin.imagemUser == null }">

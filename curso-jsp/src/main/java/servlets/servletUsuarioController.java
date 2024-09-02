@@ -79,7 +79,7 @@ public class servletUsuarioController extends ServletGenericUtil {
 
 				String id = request.getParameter("id");
 
-				ModelLogin modelLogin = daoUsuarioRepository.buscarUsuarioId(id);
+				ModelLogin modelLogin = daoUsuarioRepository.buscarUsuarioId(id, super.getUserLogado(request));
 				
 				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuariolist(super.getUserLogado(request));
 				request.setAttribute("modelLogins", modelLogins);
@@ -99,6 +99,16 @@ public class servletUsuarioController extends ServletGenericUtil {
 
 				request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
 				
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("dowloadFoto")) {//codigo para baixar a foto do usuário
+				
+				String id = request.getParameter("id");
+				ModelLogin modelLogin = daoUsuarioRepository.buscarUsuarioId(id, super.getUserLogado(request));
+				if(modelLogin.getImagemUser()!=null && !modelLogin.getImagemUser().isEmpty()) {
+					
+				response.setHeader("content-Disposition", "attachment;filename=arquivo." + modelLogin.getExtensaoImagemUser());
+				response.getOutputStream().write(new Base64().decodeBase64(modelLogin.getImagemUser().split("\\,", 0)[1]));
+				
+				}
 			}
 			
 
