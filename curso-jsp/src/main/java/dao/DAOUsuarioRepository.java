@@ -36,6 +36,22 @@ public class DAOUsuarioRepository {
 		statement.execute();
 
 		connection.commit();
+		
+		
+
+		if (usuario.getImagemUser() != null && !usuario.getImagemUser().isEmpty()) {
+
+			sql = "update model_login set fotouser=?, extensaofotouser=? where login=? ";
+
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, usuario.getImagemUser());
+			statement.setString(2, usuario.getExtensaoImagemUser());
+			statement.setString(3, usuario.getLogin());
+
+			statement.execute();
+
+			connection.commit();
+		}
 
 		return this.buscarUsuario(usuario.getLogin(), userLogado);
 
@@ -116,6 +132,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setUserAdmin(resultSet.getBoolean("useradmin"));
 			modelLogin.setPerfil(resultSet.getString("perfil"));
 			modelLogin.setSexo(resultSet.getString("sexo"));
+			modelLogin.setImagemUser(resultSet.getString("fotouser"));
 
 		}
 
@@ -126,10 +143,11 @@ public class DAOUsuarioRepository {
 
 		ModelLogin modelLogin = new ModelLogin();
 
-		String sql = "select * from model_login where upper(login) = upper(?) and useradmin is false and usuario_id=" + userLogado;
+		String sql = "select * from model_login where upper(login) = upper(?) and useradmin is false and usuario_id="
+				+ userLogado;
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, login);
-		//statement.setLong(2, userLogado);
+		// statement.setLong(2, userLogado);
 
 		ResultSet resultSet = statement.executeQuery();
 
@@ -141,6 +159,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setSenha(resultSet.getString("senha"));
 			modelLogin.setPerfil(resultSet.getString("perfil"));
 			modelLogin.setSexo(resultSet.getString("sexo"));
+			modelLogin.setImagemUser(resultSet.getString("fotouser"));
 
 		}
 
@@ -165,6 +184,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setSenha(resultSet.getString("senha"));
 			modelLogin.setPerfil(resultSet.getString("perfil"));
 			modelLogin.setSexo(resultSet.getString("sexo"));
+			modelLogin.setImagemUser(resultSet.getString("fotouser"));
 
 		}
 
@@ -189,6 +209,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setSenha(resultSet.getString("senha"));
 			modelLogin.setPerfil(resultSet.getString("perfil"));
 			modelLogin.setSexo(resultSet.getString("sexo"));
+			modelLogin.setImagemUser(resultSet.getString("fotouser"));
 
 		}
 
@@ -234,16 +255,26 @@ public class DAOUsuarioRepository {
 		statement.setString(4, modelLogin.getPerfil());
 		statement.setString(5, modelLogin.getSexo());
 		statement.setString(6, modelLogin.getLogin());
-		
 
 		statement.execute();
 
 		connection.commit();
-		
+		if (modelLogin.getImagemUser() != null && !modelLogin.getImagemUser().isEmpty()) {
+
+			sql = "update model_login set fotouser=?, extensaofotouser=? where id=? ";
+
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, modelLogin.getImagemUser());
+			statement.setString(2, modelLogin.getExtensaoImagemUser());
+			statement.setLong(3, modelLogin.getId());
+
+			statement.execute();
+
+			connection.commit();
+		}
+
 		return this.buscarGenerico(modelLogin.getLogin());
-		
-		
-		
+
 	}
 
 	public void deletarUsuario(String id) throws Exception {
@@ -276,9 +307,10 @@ public class DAOUsuarioRepository {
 			modelLogin.setUserAdmin(resultSet.getBoolean("useradmin"));
 			modelLogin.setPerfil(resultSet.getString("perfil"));
 			modelLogin.setSexo(resultSet.getString("sexo"));
+			modelLogin.setImagemUser(resultSet.getString("fotouser"));
 
 		}
-		
+
 		return modelLogin;
 
 	}

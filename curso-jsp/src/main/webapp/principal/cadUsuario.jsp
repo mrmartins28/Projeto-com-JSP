@@ -50,7 +50,7 @@
 
 													<div class="card-block">
 														<h4 class="sub-title">Cadastro de usuário</h4>
-														<form class="form-material"
+														<form class="form-material" enctype="multipart/form-data"
 															action="<%=request.getContextPath()%>/servletUsuarioController"
 															method="post" id="formUser">
 
@@ -62,6 +62,25 @@
 																	readonly="readonly"> <span class="form-bar"></span>
 																<label class="float-label">Id:</label>
 															</div>
+															
+															<div class="form-group form-default input-group mb-4">
+																<div class="input-group-prepend">
+																<c:if test="${modelLogin.imagemUser !='' && modelLogin.imagemUser != null }">
+																
+																<img alt="Imagem User" id="fotoembase64" src="${modelLogin.imagemUser }" width="70px">
+																
+																</c:if>
+																
+																<c:if test="${modelLogin.imagemUser == '' || modelLogin.imagemUser == null }">
+																
+																<img alt="Imagem User" id="fotoembase64" src="assets\images\user.png" width="70px">
+																
+																</c:if>
+																	
+																</div>
+																	<input type="file" id="filefoto" name ="filefoto" accept="image/*" onchange="visualizaimg('fotoembase64','filefoto');" class="form-control-file" style="margin-top: 15px; margin-left: 5px;">
+															</div>
+															
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="nome" id="nome"
 																	value="${modelLogin.nome }" class="form-control"
@@ -129,8 +148,8 @@
 																	required="required" autocomplete="off"> <span
 																	class="form-bar"></span> <label class="float-label">Senha:</label>
 															</div>
-															<div class="form-group form-default form-static-label"> 
-															<input type="radio" name="sexo" value="Masculino"<%
+															<div class="form-group form-default form-static-label" > 
+															<input type="radio" name="sexo" value="Masculino" required="required" <%
 															
 															modelLogin = (ModelLogin)request.getAttribute("modelLogin");
 															if(modelLogin != null && modelLogin.getSexo().equals("Masculino")){
@@ -140,7 +159,8 @@
 																
 																
 															}%>>Masculino</>
-															<input type="radio" name="sexo"  value="Feminino"<%
+															
+															<input type="radio" name="sexo"  value="Feminino" required="required" <%
 															
 															modelLogin = (ModelLogin)request.getAttribute("modelLogin");
 															if(modelLogin != null && modelLogin.getSexo().equals("Feminino")){
@@ -152,6 +172,7 @@
 															}%>
 															
 															>Feminino</>
+															<div class="invalid-feedback">Informe o sexo!</div>
 															</div>
 															
 															
@@ -283,6 +304,24 @@
 
 	<jsp:include page="javascriptFile.jsp"></jsp:include>
 	<script type="text/javascript">
+	function visualizaimg(fotobase64, filefoto) {
+		var preview = document.getElementById(fotobase64);
+		var fileUser = document.getElementById(filefoto).files[0];
+		var reader = new FileReader();
+		
+		reader.onloadend = function(){
+			preview.src = reader.result;
+			
+		};
+		
+		if(fileUser){
+			reader.readAsDataURL(fileUser);
+		} else{
+			preview.src = '';
+		}
+		
+	}
+	
 		function buscarUsuario() {
 
 			var nomeBusca = document.getElementById('nomeBusca').value;

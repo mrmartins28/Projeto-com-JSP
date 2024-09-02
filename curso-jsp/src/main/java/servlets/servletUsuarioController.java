@@ -5,16 +5,24 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload2.javax.JavaxServletFileUpload;
+import org.apache.commons.io.IOUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.DAOUsuarioRepository;
 import model.ModelLogin;
 
+@MultipartConfig
 @WebServlet(urlPatterns = { "/servletUsuarioController"}) 
 public class servletUsuarioController extends ServletGenericUtil {
 	private static final long serialVersionUID = 1L;
@@ -134,10 +142,20 @@ public class servletUsuarioController extends ServletGenericUtil {
 			modelLogin.setSenha(senha);
 			modelLogin.setPerfil(perfil);
 			modelLogin.setSexo(sexo);
+			
+			if(ServletFileUpload.isMultipartContent(request)) {
+				Part part = request.getPart("filefoto"); // pega a foto na tela
+				byte[] foto = IOUtils.toByteArray(part.getInputStream());//converte imagem para byte
+				String imagemBase64 = "data:image/" + part.getContentType().split("\\/")[1] + ";base64," + new Base64().encodeBase64String(foto);
+				
+				modelLogin.setImagemUser(imagemBase64);
+				modelLogin.setExtensaoImagemUser(part.getContentType().split("\\/")[1]);
+			}
 
 			if (daoUsuarioRepository.validaLogin(modelLogin.getLogin()) && modelLogin.getId() != null) {
 				if (!modelLogin.isNovo()) {
 					modelLogin = daoUsuarioRepository.atualizarCadastro(modelLogin);
+					
 					msg = "Esse Login já existe, Usuario atualizado";
 					
 				}
