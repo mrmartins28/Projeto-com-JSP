@@ -63,10 +63,37 @@ public class DAOUsuarioRepository {
 		return this.buscarUsuario(usuario.getLogin(), userLogado);
 
 	}
+	
+	public List<ModelLogin> consultaUsuariolistPaginado(Long userLogado, Integer offset) throws Exception {
+
+		String sql = "select * from model_login where useradmin is false and usuario_id=" + userLogado + " order by nome offset "+ offset +" limit 5";
+		PreparedStatement statement = connection.prepareStatement(sql);
+
+		ResultSet resultSet = statement.executeQuery();
+
+		List<ModelLogin> listaUsuarios = new ArrayList<ModelLogin>();
+
+		while (resultSet.next()) {
+			ModelLogin modelLogin = new ModelLogin();
+			modelLogin.setId(resultSet.getLong("id"));
+			modelLogin.setEmail(resultSet.getString("email"));
+			modelLogin.setLogin(resultSet.getString("login"));
+			modelLogin.setNome(resultSet.getString("nome"));
+			// modelLogin.setSenha(resultSet.getString("senha"));
+			modelLogin.setPerfil(resultSet.getString("perfil"));
+			modelLogin.setSexo(resultSet.getString("sexo"));
+
+			listaUsuarios.add(modelLogin);
+
+		}
+
+		return listaUsuarios;
+
+	}
 
 	public List<ModelLogin> consultaUsuariolist(Long userLogado) throws Exception {
 
-		String sql = "select * from model_login where useradmin is false and usuario_id=" + userLogado;
+		String sql = "select * from model_login where useradmin is false and usuario_id=" + userLogado + " limit 5";
 		PreparedStatement statement = connection.prepareStatement(sql);
 
 		ResultSet resultSet = statement.executeQuery();
@@ -93,7 +120,7 @@ public class DAOUsuarioRepository {
 
 	public List<ModelLogin> consultaUsuariolist(String nome, Long userLogado) throws Exception {
 
-		String sql = "select * from model_login where upper(nome) like upper(?) and useradmin is false and usuario_id=";
+		String sql = "select * from model_login where upper(nome) like upper(?) and useradmin is false and usuario_id=? limit 5";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, "%" + nome + "%");
 		statement.setLong(2, userLogado);
@@ -365,4 +392,31 @@ public class DAOUsuarioRepository {
 		return modelLogin;
 
 	}
+	
+	public int totalpagina(Long userLogado) throws Exception{
+		
+		String sql = "select count(1) as total from model_login where usuario_id =" + userLogado ;
+
+		PreparedStatement statement = connection.prepareStatement(sql);
+		
+		ResultSet resultSet = statement.executeQuery();
+		resultSet.next();
+		
+		Double cadastros = resultSet.getDouble("total");
+		
+		Double numPorPaginas = 5.0;
+		
+		Double paginas = cadastros/ numPorPaginas;
+
+		Double resto = paginas % 2;
+		
+		
+		if (resto > 0) {
+
+			paginas++;
+		}
+
+		return paginas.intValue();
+	}
+	
 }

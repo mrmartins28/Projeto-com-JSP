@@ -86,6 +86,7 @@ public class servletUsuarioController extends ServletGenericUtil {
 
 				request.setAttribute("msg", "usuário em edição.");
 				request.setAttribute("modelLogin", modelLogin);
+				request.setAttribute("totalPaginas", daoUsuarioRepository.totalpagina(super.getUserLogado(request)));
 
 				request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
 				
@@ -96,6 +97,7 @@ public class servletUsuarioController extends ServletGenericUtil {
 				
 				request.setAttribute("msg", "usuários carregados.");
 				request.setAttribute("modelLogins", modelLogins);
+				request.setAttribute("totalPaginas", daoUsuarioRepository.totalpagina(super.getUserLogado(request)));
 
 				request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
 				
@@ -109,6 +111,17 @@ public class servletUsuarioController extends ServletGenericUtil {
 				response.getOutputStream().write(new Base64().decodeBase64(modelLogin.getImagemUser().split("\\,", 0)[1]));
 				
 				}
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("paginar")) {
+				
+				Integer offset = Integer.parseInt(request.getParameter("pagina"));
+				
+				List <ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuariolistPaginado(super.getUserLogado(request), offset);
+				
+				request.setAttribute("modelLogins", modelLogins);
+				request.setAttribute("totalPaginas", daoUsuarioRepository.totalpagina(super.getUserLogado(request)));
+
+				request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
+				
 			}
 			
 
@@ -116,6 +129,7 @@ public class servletUsuarioController extends ServletGenericUtil {
 				
 				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuariolist(super.getUserLogado(request));
 				request.setAttribute("modelLogins", modelLogins);
+				request.setAttribute("totalPaginas", daoUsuarioRepository.totalpagina(super.getUserLogado(request)));
 
 
 				request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
@@ -195,6 +209,7 @@ public class servletUsuarioController extends ServletGenericUtil {
 
 			request.setAttribute("msg", msg);
 			request.setAttribute("modelLogin", modelLogin);
+			request.setAttribute("totalPaginas", daoUsuarioRepository.totalpagina(super.getUserLogado(request)));
 
 			request.getRequestDispatcher("principal/cadUsuario.jsp").forward(request, response);
 

@@ -196,23 +196,23 @@ if (modelLogin != null && modelLogin.getPerfil().equals("AUXILIAR")) {
 															<div class="form-group form-default form-static-label">
 																<input type="radio" name="sexo" value="Masculino"
 																	required="required"
-																	<%modelLogin = (ModelLogin) request.getAttribute("modelLogin");
-if (modelLogin != null && modelLogin.getSexo().equals("Masculino")) {
-	out.print(" ");
-	out.print("checked=\"checked\"");
-	out.print(" ");
-
-}%>>Masculino</>
+																																	<%modelLogin = (ModelLogin) request.getAttribute("modelLogin");
+																if (modelLogin != null && modelLogin.getSexo().equals("Masculino")) {
+																	out.print(" ");
+																	out.print("checked=\"checked\"");
+																	out.print(" ");
+																
+																}%>>Masculino</>
 
 																<input type="radio" name="sexo" value="Feminino"
 																	required="required"
 																	<%modelLogin = (ModelLogin) request.getAttribute("modelLogin");
-if (modelLogin != null && modelLogin.getSexo().equals("Feminino")) {
-	out.print(" ");
-	out.print("checked=\"checked\"");
-	out.print(" ");
-
-}%>>Feminino</>
+																if (modelLogin != null && modelLogin.getSexo().equals("Feminino")) {
+																	out.print(" ");
+																	out.print("checked=\"checked\"");
+																	out.print(" ");
+																
+																}%>>Feminino</>
 																<div class="invalid-feedback">Informe o sexo!</div>
 															</div>
 
@@ -274,6 +274,24 @@ if (modelLogin != null && modelLogin.getSexo().equals("Feminino")) {
 											</table>
 
 										</div>
+
+										<nav aria-label="Page navigation example">
+											<ul class="pagination">
+											<%
+											int totalPagina = (int) request.getAttribute("totalPaginas");
+											
+											for(int p=0; p<totalPagina ; p++){
+												
+												String url = request.getContextPath() + "/servletUsuarioController?acao=paginar&pagina=" + (p * 5);
+												out.print("<li class=\"page-item\"><a class=\"page-link\" href=\""+ url +"\">"+ (p + 1)+"</a></li>");
+											}
+											
+											
+											%>
+											
+												
+											</ul>
+										</nav>
 
 									</div>
 									<!-- Page-body end -->
